@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Digital Store</title>
+<style>
+:root{--bg:#f3f6fb;--card:#fff;--text:#14301c;--muted:#5b6b60;--green:#0a8a0a;--green2:#066806;--border:#cfe3d2;--blue:#5b5bf0;--red:#e03b3b;--input:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:calc(90px + env(safe-area-inset-bottom,0px))}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1511;--card:#18211b;--text:#e6f2e8;--muted:#9bb0a0;--border:#2b3d2f;--input:#101612;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1511;--card:#18211b;--text:#e6f2e8;--muted:#9bb0a0;--border:#2b3d2f;--input:#101612;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:8px;align-items:center;padding:10px 12px;background:var(--card);border-bottom:1px solid var(--border)}
+.pill{background:linear-gradient(var(--green),var(--green2));color:#fff;border:0;border-radius:999px;padding:10px 16px;font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;gap:8px;justify-content:center}
+.pill.logo{flex:1}.pill img{width:26px;height:26px;border-radius:50%;object-fit:cover}
+main{padding:12px;max-width:900px;margin:auto}
+.slider{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;border-radius:18px;scrollbar-width:none}
+.slider::-webkit-scrollbar{display:none}
+.slide{flex:none;width:100%;height:180px;scroll-snap-align:start;background:linear-gradient(135deg,#ff9933,#fff 50%,#138808) center/cover;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;color:#222;font-weight:800;font-size:24px;position:relative;cursor:pointer}
+.slide span{background:rgba(255,255,255,.85);padding:6px 12px;border-radius:10px}
+.play{position:absolute;left:14px;bottom:14px;background:#e62117;color:#fff;border-radius:12px;padding:8px 14px;font-size:15px}
+.dots{display:flex;justify-content:center;gap:6px;margin-top:8px}.dots i{width:8px;height:8px;border-radius:50%;background:var(--border)}.dots i.on{background:var(--green);width:20px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:14px 0}
+.chip{flex:none;padding:10px 20px;border-radius:999px;border:2px solid var(--border);background:var(--card);color:var(--text);font-weight:700;cursor:pointer;font-size:14px}
+.chip.on{background:var(--green);border-color:var(--green);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.item{background:var(--card);border:2px solid var(--border);border-radius:18px;overflow:hidden;text-align:center;position:relative}
+.thumb{height:110px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:34px;background:linear-gradient(135deg,#0a8a0a,#5b5bf0) center/cover}
+.off{position:absolute;top:8px;left:8px;background:var(--red);color:#fff;font-size:12px;font-weight:700;padding:3px 8px;border-radius:999px}
+.item h3{margin:10px 8px 6px;font-size:14px}
+.price{display:inline-block;color:var(--green);font-weight:800;border:2px solid var(--border);border-radius:999px;padding:4px 14px;margin-bottom:8px}
+.price s{color:var(--muted);font-weight:400;font-size:12px;margin-left:4px}
+.btn{display:block;margin:0 10px 8px;padding:10px;border-radius:10px;border:0;color:#fff;font-weight:700;cursor:pointer;width:calc(100% - 20px);font-size:14px;text-align:center;text-decoration:none}
+.b1{background:var(--blue)}.b2{background:linear-gradient(var(--green),var(--green2))}.b3{background:var(--red)}
+nav{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;background:var(--card);border:1px solid var(--border);border-radius:28px;padding:6px;box-shadow:0 6px 20px rgba(0,0,0,.15);z-index:6}
+nav a{flex:1;text-align:center;padding:8px;border-radius:22px;color:var(--muted);text-decoration:none;font-size:13px;font-weight:600}
+nav a.on{background:rgba(10,138,10,.15);color:var(--green)}
+.box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px}
+.box h2{margin:0 0 10px;font-size:18px}
+label{display:block;font-weight:700;margin:10px 0 4px;font-size:13px}
+input[type=text],input[type=number],input[type=tel],input[type=password],textarea,select{width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--input);color:var(--text);font-size:15px;font-family:inherit}
+textarea{min-height:70px}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}
+.sm{display:inline-block;padding:10px 14px;border:0;border-radius:10px;color:#fff;font-weight:700;cursor:pointer;background:var(--blue);margin-top:8px;font-size:14px;text-align:center;text-decoration:none;position:relative;overflow:hidden}
+.sm.g{background:var(--green)}.sm.r{background:var(--red)}.sm.w{width:100%}
+.sm input[type=file]{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
+.pimg{width:70px;height:70px;flex:none!important;border-radius:10px;object-fit:cover;background:var(--border)}
+.prod{border-top:1px dashed var(--border);padding-top:12px;margin-top:12px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--card);width:100%;max-width:480px;max-height:92%;overflow:auto;border-radius:22px 22px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom,0px))}
+.sheet h2{margin:0 0 6px}
+.qr{display:flex;justify-content:center;margin:12px 0}.qr canvas,.qr img{border-radius:8px;background:#fff;padding:8px;max-width:220px}
+.shot{max-width:100%;max-height:160px;border-radius:10px;margin-top:8px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:110px;background:#222;color:#fff;padding:10px 16px;border-radius:12px;z-index:30;font-size:14px;max-width:90%;text-align:center}
+.spin{width:54px;height:54px;border:6px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:sp 1s linear infinite;margin:30px auto 14px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.hide{display:none}.center{text-align:center}.muted{color:var(--muted);font-size:13px}.tabs{display:flex;gap:8px;margin-bottom:8px}.tabs .chip{flex:1}
+.err{color:var(--red);font-weight:700;margin-top:8px;font-size:14px}
+</style>
+</head>
+<body>
+<header>
+  <button class="pill" onclick="go('home')" aria-label="Home">⌂</button>
+  <button class="pill logo" id="brand" onclick="go('home')"></button>
+  <button class="pill" id="shr">Share</button>
+</header>
+<main id="app"></main>
+<nav>
+  <a href="#home" id="nh">Home</a>
+  <a href="#trending" id="nt">Trending</a>
+  <a href="#account" id="na">Account</a>
+</nav>
+<div id="modal"></div>
+
+<script type="application/json" id="data">{"site": {"name": "PANEL STORE", "logo": "", "cats": ["Courses", "Templates", "Tools"]}, "banners": [{"img": "", "text": "How to Buy", "link": "https://youtu.be/2_FwLf6y1-g?si=L06Lp_eXjdnzQIqJ"}, {"img": "", "text": "New digital products every week", "link": ""}, {"img": "", "text": "Instant support on Telegram", "link": ""}, {"img": "", "text": "", "link": ""}], "pay": {"upi": "satpal.rawat01@fam", "payee": "Pay now", "qrImg": "", "tg": "Sattu7x"}, "admin": {"id": "8306657355", "salt": "ds7k2", "hash": "26bd029a5d3616648d8207b50a68f5c9239bff3e3eedaacc77a38e89112aef4c"}, "products": [{"id": "p1", "name": "Product One", "price": 99, "off": 0, "cat": "Courses", "img": "", "desc": "Product details go here.", "status": "active", "trend": true}, {"id": "p2", "name": "Product Two", "price": 199, "off": 20, "cat": "Templates", "img": "", "desc": "Product details go here.", "status": "active", "trend": true}, {"id": "p3", "name": "Paramod", "price": 99, "off": 10, "cat": "Courses", "img": "", "desc": "Top one best panel", "status": "active", "trend": false}]}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+var TEMPLATE="<!DOCTYPE html>\n"+document.documentElement.outerHTML;
+var S=JSON.parse(document.getElementById("data").textContent);
+var isOwner=false,cur="All",lt="c",app=document.getElementById("app"),tm=null,sess=null,loginErr="";
+function ld(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+sess=ld("ds_sess",null);
+function esc(t){return String(t==null?"":t).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function final(p){return Math.round(p.price*(1-(p.off||0)/100))}
+function tg(){return (S.pay.tg||"").replace(/^@/,"")}
+function toast(t){var d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.remove()},2800)}
+function go(v){location.hash=v}
+function closeM(){document.getElementById("modal").innerHTML=""}
+function setPath(path,val){var k=path.split("."),o=S;for(var i=0;i<k.length-1;i++)o=o[k[i]];o[k[k.length-1]]=val}
+async function H(s,salt){try{var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(salt+":"+s));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("")}catch(e){return btoa(unescape(encodeURIComponent(salt+s)))}}
+function shrink(f,max,type,cb){var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var s=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);var x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);cb(c.toDataURL(type,.82))};im.onerror=function(){toast("Could not read this image")};im.src=r.result};r.readAsDataURL(f)}
+function sheet(inner,noClose){var m=document.getElementById("modal");m.innerHTML='<div class="modal"><div class="sheet">'+inner+(noClose?'':'<button class="sm r w" id="cl">Close</button>')+'</div></div>';if(!noClose){m.querySelector(".modal").onclick=function(e){if(e.target===this)closeM()};document.getElementById("cl").onclick=closeM}}
+function header(){var b=document.getElementById("brand");b.innerHTML=(S.site.logo?'<img src="'+S.site.logo+'" alt="">':'')+esc(S.site.name);document.title=S.site.name}
+document.getElementById("shr").onclick=function(){var u=location.href.split("#")[0];if(navigator.share){navigator.share({title:S.site.name,url:u}).catch(function(){})}else{try{navigator.clipboard.writeText(u).then(function(){toast("Link copied")})}catch(e){toast(u)}}};
+
+function cards(list){
+  var h='<div class="grid">';
+  list.forEach(function(i){var p=S.products[i];
+    h+='<div class="item">'+(p.off?'<span class="off">-'+p.off+'%</span>':'')+
+    '<div class="thumb" style="'+(p.img?'background-image:url('+p.img+')':'')+'">'+(p.img?'':esc(p.name.charAt(0)))+'</div><h3>'+esc(p.name)+'</h3>'+
+    '<div class="price">₹'+final(p)+(p.off?'<s>₹'+p.price+'</s>':'')+'</div>'+
+    '<button class="btn b1" data-d="'+i+'">DETAILS</button>'+
+    (p.status==="maint"?'<button class="btn b3" disabled>MAINTENANCE</button>':'<button class="btn b2" data-b="'+i+'">BUY NOW</button>')+'</div>'});
+  return h+'</div>';
+}
+function wire(){
+  app.querySelectorAll("[data-d]").forEach(function(e){e.onclick=function(){var p=S.products[e.dataset.d];sheet('<h2>'+esc(p.name)+'</h2><div class="price">₹'+final(p)+'</div><p style="white-space:pre-wrap">'+esc(p.desc)+'</p>'+(p.dl?unlockHtml():''));if(p.dl)wireUnlock(p)}});
+  app.querySelectorAll("[data-b]").forEach(function(e){e.onclick=function(){buy(S.products[e.dataset.b])}});
+}
+function home(){
+  var bs=S.banners.filter(function(b){return b.img||b.text});
+  var h='<div class="slider" id="sl">';
+  bs.forEach(function(b,i){h+='<div class="slide" data-l="'+i+'" style="'+(b.img?'background-image:url('+b.img+')':'')+'">'+(b.text?'<span>'+esc(b.text)+'</span>':'')+(b.link?'<div class="play">'+(/youtu/.test(b.link)?'▶ Watch video':'Open')+'</div>':'')+'</div>'});
+  h+='</div><div class="dots" id="dots">'+bs.map(function(_,i){return'<i class="'+(i?'':'on')+'"></i>'}).join("")+'</div><div class="chips">';
+  ["All"].concat(S.site.cats).forEach(function(c,i){h+='<button class="chip'+(c===cur?' on':'')+'" data-c="'+esc(c)+'">'+esc(c)+'</button>'});
+  var idx=[];S.products.forEach(function(p,i){if(cur==="All"||p.cat===cur)idx.push(i)});
+  app.innerHTML=h+'</div>'+cards(idx)+'<p class="center muted">Need help? <a href="https://t.me/'+esc(tg())+'" target="_blank" rel="noopener" style="color:var(--green);font-weight:700">Customer care on Telegram</a></p>';
+  var sl=document.getElementById("sl"),dots=document.querySelectorAll("#dots i");
+  sl.onscroll=function(){var n=Math.round(sl.scrollLeft/sl.clientWidth);dots.forEach(function(d,i){d.className=i===n?"on":""})};
+  app.querySelectorAll("[data-l]").forEach(function(e){e.onclick=function(){var l=bs[e.dataset.l].link;if(l)window.open(l,"_blank","noopener")}});
+  app.querySelectorAll("[data-c]").forEach(function(e){e.onclick=function(){cur=e.dataset.c;home()}});
+  if(bs.length>1)tm=setInterval(function(){var n=(Math.round(sl.scrollLeft/sl.clientWidth)+1)%bs.length;sl.scrollTo({left:n*sl.clientWidth,behavior:"smooth"})},4000);
+  wire();
+}
+function trending(){
+  var idx=[];S.products.forEach(function(p,i){if(p.trend)idx.push(i)});
+  app.innerHTML='<div class="box"><h2>Trending</h2><p class="muted" style="margin:0">Most popular products right now</p></div>'+(idx.length?cards(idx):'<p class="center muted">No trending products yet.</p>');wire();
+}
+function b64(u){var s="";u.forEach(function(x){s+=String.fromCharCode(x)});return btoa(s)}
+function ub(s){return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0)})}
+async function dkey(code,salt){var m=await crypto.subtle.importKey("raw",new TextEncoder().encode(code),"PBKDF2",false,["deriveKey"]);return crypto.subtle.deriveKey({name:"PBKDF2",salt:salt,iterations:150000,hash:"SHA-256"},m,{name:"AES-GCM",length:256},false,["encrypt","decrypt"])}
+async function enc(link,code){var s=crypto.getRandomValues(new Uint8Array(16)),i=crypto.getRandomValues(new Uint8Array(12)),k=await dkey(code,s),c=await crypto.subtle.encrypt({name:"AES-GCM",iv:i},k,new TextEncoder().encode(link));return{s:b64(s),i:b64(i),c:b64(new Uint8Array(c))}}
+async function dec(o,code){var k=await dkey(code,ub(o.s)),p=await crypto.subtle.decrypt({name:"AES-GCM",iv:ub(o.i)},k,ub(o.c));return new TextDecoder().decode(p)}
+function unlockHtml(){return '<hr style="border:0;border-top:1px dashed var(--border);margin:16px 0"><label>Already paid? Enter your delivery code</label><input type="text" id="uc" placeholder="Code from customer care"><button class="sm g w" id="ub">Unlock download link</button><div id="ur"></div>'}
+function wireUnlock(p){document.getElementById("ub").onclick=async function(){var r=document.getElementById("ur"),c=document.getElementById("uc").value.trim();if(!p.dl){r.innerHTML='<p class="muted">The download link for this product will be sent by customer care.</p>';return}if(!c){r.innerHTML='<p class="err">Please enter your code.</p>';return}try{var l=await dec(p.dl,c);if(!/^https?:\/\//i.test(l))throw 0;r.innerHTML='<a class="sm g w" target="_blank" rel="noopener" href="'+esc(l)+'">Download / Open your product</a>'}catch(e){r.innerHTML='<p class="err">Wrong code. Please check with customer care.</p>'}}}
+function upiLink(p,ref){return "upi://pay?pa="+encodeURIComponent(S.pay.upi)+"&pn="+encodeURIComponent(S.pay.payee||S.site.name)+"&am="+final(p)+"&cu=INR&tn="+encodeURIComponent(p.name+" "+ref)}
+function buy(p){
+  if(!S.pay.upi&&!S.pay.qrImg){sheet('<h2>Payment</h2><p>Payment is not available right now. Please contact customer care.</p><a class="sm g w" target="_blank" rel="noopener" href="https://t.me/'+esc(tg())+'">Customer care on Telegram</a>');return}
+  var ref="ORD"+Date.now().toString(36).toUpperCase(),shotFile=null,shotUrl="";
+  sheet('<h2>'+esc(p.name)+'</h2><div class="price">Pay ₹'+final(p)+'</div><div class="qr" id="qr"></div>'+
+  (S.pay.upi?'<a class="btn b2" style="margin:0;width:100%" href="'+esc(upiLink(p,ref))+'">Pay with UPI app</a><p class="muted center">UPI ID: '+esc(S.pay.upi)+'</p>':'')+
+  '<label>Your name</label><input type="text" id="bn1"><label>Phone number</label><input type="tel" id="bn2" value="'+esc(sess&&sess.role==="customer"?sess.id:"")+'">'+
+  '<label>Payment screenshot (optional)</label><label class="sm w" style="margin-top:0">Upload screenshot<input type="file" accept="image/*" id="shot"></label><img class="shot hide" id="prev" alt="">'+
+  '<div class="err" id="er"></div><button class="sm g w" id="ok">Check Payment</button>');
+  var q=document.getElementById("qr");
+  if(S.pay.upi&&window.QRCode){new QRCode(q,{text:upiLink(p,ref),width:200,height:200})}else if(S.pay.qrImg){q.innerHTML='<img src="'+S.pay.qrImg+'" alt="QR code">'}
+  document.getElementById("shot").onchange=function(){var f=this.files[0];if(!f)return;shotFile=f;shrink(f,900,"image/jpeg",function(d){shotUrl=d;var im=document.getElementById("prev");im.src=d;im.className="shot"})};
+  document.getElementById("ok").onclick=function(){
+    var n=document.getElementById("bn1").value.trim(),c=document.getElementById("bn2").value.trim(),er=document.getElementById("er");
+    if(!n||!c){er.textContent="Please enter your name and phone number.";return}
+    if(shotFile&&!shotUrl){er.textContent="Your screenshot is still loading. Please try again in a moment.";return}
+    sheet('<div class="center"><div class="spin"></div><h2>Checking your payment...</h2><p class="muted">Please wait, do not close this page.</p></div>',true);
+    var orders=ld("ds_orders",[]);orders.unshift({ref:ref,name:p.name,amt:final(p),t:new Date().toLocaleString()});sv("ds_orders",orders.slice(0,30));
+    setTimeout(function(){
+      var txt="Order "+ref+"\nProduct: "+p.name+"\nAmount: Rs "+final(p)+"\nName: "+n+"\nPhone: "+c;
+      sheet('<div class="center"><h2 style="color:var(--red)">Payment could not be verified automatically</h2><p>Your order <b>'+ref+'</b> has been saved. Please send your payment screenshot to customer care and your product will be delivered after a manual check.</p>'+(shotUrl?'<img class="shot" src="'+shotUrl+'" alt="Your screenshot"><p class="muted">If it does not attach automatically, long-press this image to save it, then attach it in the Telegram chat.</p>':'<p class="muted">Please send your payment screenshot in the Telegram chat.</p>')+'</div><button class="sm g w" id="snd">Send screenshot on Telegram</button><a class="sm w" target="_blank" rel="noopener" href="https://t.me/'+esc(tg())+'">Customer care (@'+esc(tg())+')</a>'+unlockHtml());wireUnlock(p);
+      document.getElementById("snd").onclick=async function(){
+        try{if(navigator.canShare&&navigator.canShare({files:[shotFile]})){await navigator.share({files:[shotFile],text:txt});return}}catch(e){if(e&&e.name==="AbortError")return}
+        var ok=false;
+        try{var im=new Image();im.src=shotUrl;await im.decode();var c=document.createElement("canvas");c.width=im.width;c.height=im.height;c.getContext("2d").drawImage(im,0,0);var bl=await new Promise(function(r){c.toBlob(r,"image/png")});await navigator.clipboard.write([new ClipboardItem({"image/png":bl})]);ok=true}catch(e){}
+        window.open("https://t.me/"+tg()+"?text="+encodeURIComponent(txt),"_blank","noopener");
+        toast(!shotFile?"Telegram opened. Send your screenshot in the chat.":ok?"Screenshot copied. Paste it in the Telegram chat.":"Save the screenshot above, then attach it in the Telegram chat.");
+      };
+    },5500);
+  };
+}
+function account(){
+  if(!sess){loginView();return}
+  if(sess.role==="admin"){adminView();return}
+  var o=ld("ds_orders",[]);
+  app.innerHTML='<div class="box"><h2>My Account</h2><p>Phone: <b>'+esc(sess.id)+'</b></p><a class="sm g" target="_blank" rel="noopener" href="https://t.me/'+esc(tg())+'">Customer care on Telegram</a> <button class="sm r" id="lo">Log out</button></div>'+
+  '<div class="box"><h2>My Orders</h2>'+(o.length?o.map(function(x){return'<p style="margin:6px 0"><b>'+esc(x.name)+'</b> · ₹'+x.amt+'<br><span class="muted">'+esc(x.ref)+' · '+esc(x.t)+'</span></p>'}).join(""):'<p class="muted">No orders yet.</p>')+'</div>';
+  document.getElementById("lo").onclick=logout;
+}
+function logout(){sess=null;sv("ds_sess",null);loginErr="";account()}
+function loginView(){
+  var h='<div class="box"><h2>Login</h2><div class="tabs"><button class="chip'+(lt==="c"?" on":"")+'" data-t="c">Customer</button><button class="chip'+(lt==="a"?" on":"")+'" data-t="a">Admin</button></div>';
+  if(lt==="c")h+='<label>Mobile number</label><input type="tel" id="u" maxlength="10" inputmode="numeric"><label>4-digit PIN</label><input type="password" id="p" maxlength="4" inputmode="numeric"><div class="err">'+loginErr+'</div><div class="row"><button class="sm g" id="li">Login</button><button class="sm" id="rg">Register</button></div><p class="muted">Login is optional. You can buy without logging in.</p>';
+  else h+='<label>Mobile number or email</label><input type="text" id="u"><label>Admin password</label><input type="password" id="p"><div class="err">'+loginErr+'</div><button class="sm g w" id="li">Admin Login</button>';
+  app.innerHTML=h+'</div>';loginErr="";
+  app.querySelectorAll("[data-t]").forEach(function(e){e.onclick=function(){lt=e.dataset.t;loginErr="";loginView()}});
+  var u=document.getElementById("u"),p=document.getElementById("p");
+  document.getElementById("li").onclick=async function(){
+    var id=u.value.trim(),pw=p.value;
+    if(lt==="a"){
+      if(id===S.admin.id&&await H(pw,S.admin.salt)===S.admin.hash){sess={role:"admin",id:id};sv("ds_sess",sess);account()}else{loginErr="Wrong admin details.";loginView()}return}
+    var us=ld("ds_users",{});
+    if(us[id]&&await H(pw,"c"+id)===us[id]){sess={role:"customer",id:id};sv("ds_sess",sess);account()}else{loginErr="Wrong number or PIN. Register first if you are new.";loginView()}
+  };
+  var rg=document.getElementById("rg");
+  if(rg)rg.onclick=async function(){
+    var id=u.value.trim(),pw=p.value;
+    if(!/^\d{10}$/.test(id)){loginErr="Enter a valid 10-digit mobile number.";loginView();return}
+    if(!/^\d{4}$/.test(pw)){loginErr="PIN must be exactly 4 digits.";loginView();return}
+    var us=ld("ds_users",{});if(us[id]){loginErr="This number is already registered. Please login.";loginView();return}
+    us[id]=await H(pw,"c"+id);sv("ds_users",us);sess={role:"customer",id:id};sv("ds_sess",sess);account();
+  };
+}
+function adminView(){
+  var y=window.scrollY,s=S.site,p=S.pay;
+  var h='<div class="box"><h2>Admin Panel</h2><p class="muted">'+(isOwner?'Make your changes, then press Save &amp; Publish.':'You are not signed in to the owner account, so changes cannot be saved. Open this link while signed in to your claude.ai account.')+'</p><button class="sm g" data-save>Save &amp; Publish</button> <button class="sm r" id="lo">Log out</button></div>'+
+  '<div class="box"><h2>Site</h2><label>Store name</label><input type="text" data-p="site.name" value="'+esc(s.name)+'">'+
+  '<label>Logo</label><div class="row"><img class="pimg" src="'+esc(s.logo)+'" alt=""><label class="sm">Choose logo<input type="file" accept="image/*" data-img="site.logo" data-max="300"></label></div>'+
+  '<label>Categories (comma separated)</label><input type="text" id="cats" value="'+esc(s.cats.join(", "))+'"></div>'+
+  '<div class="box"><h2>Banners (slider)</h2>';
+  S.banners.forEach(function(b,i){var pre="banners."+i+".";h+='<div class="prod"><b>Banner '+(i+1)+'</b><div class="row"><img class="pimg" src="'+esc(b.img)+'" alt=""><label class="sm">Choose image<input type="file" accept="image/*" data-img="'+pre+'img" data-max="1000"></label></div><label>Text</label><input type="text" data-p="'+pre+'text" value="'+esc(b.text)+'"><label>Link (YouTube video or any page)</label><input type="text" data-p="'+pre+'link" value="'+esc(b.link)+'" placeholder="https://youtube.com/..."></div>'});
+  h+='</div><div class="box"><h2>Payment and Support</h2><label>UPI ID</label><input type="text" data-p="pay.upi" value="'+esc(p.upi)+'" placeholder="name@bank">'+
+  '<label>Payee name</label><input type="text" data-p="pay.payee" value="'+esc(p.payee)+'">'+
+  '<label>Your own QR image (shown if no UPI ID is set)</label><div class="row"><img class="pimg" src="'+esc(p.qrImg)+'" alt=""><label class="sm">Choose QR<input type="file" accept="image/*" data-img="pay.qrImg" data-max="700" data-png="1"></label></div>'+
+  '<label>Customer care Telegram ID</label><input type="text" data-p="pay.tg" value="'+esc(p.tg)+'"></div>'+
+  '<div class="box"><h2>Admin Login</h2><label>Mobile number or email</label><input type="text" id="aid" value="'+esc(S.admin.id)+'"><label>New password</label><input type="password" id="apw" placeholder="Leave empty to keep current"><button class="sm" id="aup">Update login</button></div>'+
+  '<div class="box"><h2>Products</h2><button class="sm g" data-add>+ Add product</button>';
+  S.products.forEach(function(x,i){var pre="products."+i+".";
+    h+='<div class="prod"><div class="row"><img class="pimg" src="'+esc(x.img)+'" alt=""><label class="sm">Choose photo<input type="file" accept="image/*" data-img="'+pre+'img" data-max="700"></label></div>'+
+    '<label>Name</label><input type="text" data-p="'+pre+'name" value="'+esc(x.name)+'">'+
+    '<div class="row"><div><label>Price (₹)</label><input type="number" data-p="'+pre+'price" data-n value="'+x.price+'"></div><div><label>Discount %</label><input type="number" data-p="'+pre+'off" data-n value="'+x.off+'"></div></div>'+
+    '<div class="row"><div><label>Category</label><select data-p="'+pre+'cat">'+s.cats.map(function(c){return'<option'+(c===x.cat?' selected':'')+'>'+esc(c)+'</option>'}).join("")+'</select></div><div><label>Status</label><select data-p="'+pre+'status"><option value="active"'+(x.status==="active"?' selected':'')+'>Active</option><option value="maint"'+(x.status==="maint"?' selected':'')+'>Maintenance</option></select></div></div>'+
+    '<label><input type="checkbox" data-ck="'+pre+'trend"'+(x.trend?' checked':'')+'> Show in Trending</label>'+
+    '<label>Details</label><textarea data-p="'+pre+'desc">'+esc(x.desc)+'</textarea><label>Delivery link (hidden until the buyer unlocks it)'+(x.dl?' - currently set':'')+'</label><input type="text" data-p="'+pre+'_link" value="'+esc(x._link||"")+'" placeholder="https://..."><label>Delivery code (give it to the buyer after you verify payment)</label><input type="text" data-p="'+pre+'_code" value="'+esc(x._code||"")+'" placeholder="e.g. A7K29X"><button class="sm r" data-del="'+i+'">Delete</button></div>'});
+  app.innerHTML=h+'</div>';window.scrollTo(0,y);
+  app.querySelectorAll("[data-p]").forEach(function(e){e.oninput=e.onchange=function(){setPath(e.dataset.p,e.hasAttribute("data-n")?Number(e.value)||0:e.value);header()}});
+  app.querySelectorAll("[data-ck]").forEach(function(e){e.onchange=function(){setPath(e.dataset.ck,e.checked)}});
+  app.querySelectorAll("[data-img]").forEach(function(e){e.onchange=function(){var f=e.files[0];if(!f)return;shrink(f,Number(e.dataset.max)||700,e.dataset.png?"image/png":"image/jpeg",function(d){setPath(e.dataset.img,d);header();adminView();toast("Image added. Press Save & Publish.")})}});
+  document.getElementById("cats").onchange=function(){S.site.cats=this.value.split(",").map(function(t){return t.trim()}).filter(Boolean);adminView()};
+  document.getElementById("aup").onclick=async function(){var id=document.getElementById("aid").value.trim(),pw=document.getElementById("apw").value;if(!id){toast("Enter an ID");return}S.admin.id=id;if(pw){if(pw.length<6){toast("Use at least 6 characters");return}S.admin.salt=Math.random().toString(36).slice(2,8);S.admin.hash=await H(pw,S.admin.salt)}toast("Login updated. Press Save & Publish.")};
+  app.querySelector("[data-add]").onclick=function(){S.products.push({id:"p"+Date.now(),name:"New Product",price:99,off:0,cat:S.site.cats[0]||"",img:"",desc:"",status:"active",trend:false});adminView()};
+  app.querySelectorAll("[data-del]").forEach(function(e){e.onclick=function(){if(confirm("Delete this product?")){S.products.splice(e.dataset.del,1);adminView()}}});
+  app.querySelector("[data-save]").onclick=save;document.getElementById("lo").onclick=logout;
+}
+async function save(){
+  if(!isOwner){toast("Open this link in your claude.ai account to save");return}
+  try{
+    var a=await claude.use("artifact");
+    if(!a){toast("Saving is not available right now");return}
+    for(var i=0;i<S.products.length;i++){var q=S.products[i];if(q._link||q._code){if(!(q._link&&q._code)){toast("Enter both delivery link and code for "+q.name);return}if(!/^https?:\/\//i.test(q._link)){toast("Delivery link must start with http");return}q.dl=await enc(q._link,q._code);q._link="";q._code=""}}
+    var C=JSON.parse(JSON.stringify(S));C.products.forEach(function(q){delete q._link;delete q._code});
+    var json=JSON.stringify(C).replace(/</g,"\\u003c");
+    await a.publish(TEMPLATE.replace(/(<script type="application\/json" id="data">)[\s\S]*?(<\/script>)/,function(m,x,y){return x+json+y}));
+  }catch(e){toast("Save failed: "+(e&&e.code||"error"))}
+}
+function route(){
+  clearInterval(tm);
+  var v=({"#trending":"trending","#account":"account"})[location.hash]||"home";
+  document.getElementById("nh").classList.toggle("on",v==="home");
+  document.getElementById("nt").classList.toggle("on",v==="trending");
+  document.getElementById("na").classList.toggle("on",v==="account");
+  header();({home:home,trending:trending,account:account})[v]();
+}
+window.addEventListener("hashchange",route);route();
+try{claude.use("user").then(function(u){var o=!!(u&&u.isOwner());if(o!==isOwner){isOwner=o;if(location.hash==="#account"&&sess&&sess.role==="admin")adminView()}}).catch(function(){})}catch(e){}
+</script>
+</body>
+</html>
